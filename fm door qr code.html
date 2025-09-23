@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>514th AMW Finance Office - Self-Service Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .office-info {
+            background: #e8f4fd;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .office-info h3 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2a5298;
+        }
+        
+        .collapsible {
+            background-color: #f8f9fa;
+            color: #333;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: all 0.3s ease;
+        }
+        
+        .collapsible:hover {
+            background-color: #e9ecef;
+        }
+        
+        .collapsible.active {
+            background-color: #2a5298;
+            color: white;
+        }
+        
+        .collapsible:after {
+            content: '\002B';
+            color: #333;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        
+        .collapsible.active:after {
+            content: "\2212";
+            color: white;
+        }
+        
+        /* FAQ-specific collapsible styling */
+        .faq-collapsible {
+            background-color: #fff3cd;
+            color: #856404;
+            cursor: pointer;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            border-radius: 5px;
+            border: 1px solid #ffeaa7;
+            transition: all 0.3s ease;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .faq-collapsible:hover {
+            background-color: #fff3cd;
+            transform: translateX(2px);
+        }
+        
+        .faq-collapsible.active {
+            background-color: #ffc107;
+            color: #212529;
+            border-left: 4px solid #e0a800;
+        }
+        
+        .faq-collapsible:after {
+            content: '\002B';
+            color: #856404;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        
+        .faq-collapsible.active:after {
+            content: "\2212";
+            color: #212529;
+        }
+        
+        .collapsible-content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .collapsible-content.active {
+            overflow-y: auto;
+            max-height: 70vh; /* 70% of viewport height for comfortable scrolling */
+        }
+        
+        /* FAQ answer content styling */
+        .faq-content {
+            padding: 0 15px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            background-color: #fffbf0;
+            border: 1px solid #ffeaa7;
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .faq-content.active {
+            padding: 15px;
+        }
+        
+        .faq-content p, .faq-content ul {
+            margin-bottom: 10px;
+        }
+        
+        .faq-content ul {
+            padding-left: 20px;
+        }
+        
+        .faq-content li {
+            margin-bottom: 5px;
+        }
+        
+        .faq-content a {
+            color: #1e3c72;
+            text-decoration: none;
+        }
+        
+        .faq-content a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Enhance scrollbar appearance */
+        .collapsible-content::-webkit-scrollbar,
+        .faq-content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .collapsible-content::-webkit-scrollbar-track,
+        .faq-content::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        .collapsible-content::-webkit-scrollbar-thumb,
+        .faq-content::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+        }
+        
+        .collapsible-content::-webkit-scrollbar-thumb:hover,
+        .faq-content::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .contact-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+        
+        .contact-card h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .contact-card .email {
+            background: #e8f4fd;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+            margin: 10px 0;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            padding: 20px 0;
+        }
+        
+        .form-card {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-card:hover {
+            border-color: #2a5298;
+            box-shadow: 0 4px 12px rgba(42, 82, 152, 0.15);
+        }
+        
+        .form-card h4 {
+            color: #1e3c72;
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            background: #2a5298;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #1e3c72;
+        }
+        
+        .resource-list {
+            list-style: none;
+            padding: 20px 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .resource-list a {
+            color: #1e3c72;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .resource-list a:hover {
+            text-decoration: underline;
+        }
+        
+        .emergency-contact {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .emergency-contact h3 {
+            color: #0c5460;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .contact-grid, .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .collapsible, .faq-collapsible {
+                font-size: 14px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .header p {
+                font-size: 1em;
+            }
+            
+            .section h2 {
+                font-size: 1.5em;
+            }
+            
+            .collapsible-content.active,
+            .faq-content.active {
+                max-height: 80vh; /* More screen space on mobile */
+            }
+            
+            .office-info p {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .collapsible, .faq-collapsible {
+                font-size: 13px;
+                padding: 12px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
+            .contact-card, .form-card {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>514th AMW Finance Office</h1>
+            <p>Self-Service Portal - McGuire AFB, NJ</p>
+        </div>
+        
+        <div class="office-info">
+            <h3>Office Information</h3>
+            <p><strong>Location:</strong> 2217 W Arnold Ave, Room 125, McGuire AFB, NJ 08641</p>
+            <p><strong>Phone:</strong> 609-754-5222</p>
+            <p><strong>Hours:</strong> Mon-Fri 0900-1500 | UTA Saturday: 0800-1500 | UTA Sunday: 0800-1200</p>
+        </div>
+        
+        <div class="emergency-contact">
+            <h3>Staff Not Available?</h3>
+            <p>No worries! Use the resources below to find the right contact, form, or information for your finance needs. Most issues can be resolved through the organizational email addresses listed below.</p>
+        </div>
+        
+        <div class="content">
+            <!-- Contact Directory -->
+            <div class="section">
+                <h2>Contact Directory (Org Box Emails)</h2>
+                
+                <button type="button" class="collapsible">Military Pay Issues</button>
+                <div class="collapsible-content">
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h4>General Military Pay</h4>
+                            <p>Base pay, allowances, deductions, W-2 issues, direct deposit problems</p>
+                            <div class="email">514amw.fmfp@us.af.mil</div>
+                        </div>
+                        <div class="contact-card">
+                            <h4>BAS/UTAPS (Reserve Pay)</h4>
+                            <p>UTA pay, drill weekend pay, inactive duty training issues</p>
+                            <div class="email">Ruby.smith@us.af.mil</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="collapsible">Travel & DTS</button>
+                <div class="collapsible-content">
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h4>DTS Help Desk</h4>
+                            <p>Travel vouchers, authorizations, DTS technical issues, travel reimbursements</p>
+                            <div class="email">514amw.dts.helpdesk@us.af.mil</div>
+                        </div>
+                        <div class="contact-card">
+                            <h4>IDT-R Policy Questions</h4>
+                            <p>Inactive Duty Travel Reimbursement (IDT-R) policy questions</p>
+                            <div class="email">HQAFRC.A1Y.WORKFLOW@us.af.mil</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="collapsible">Budget & Operations</button>
+                <div class="collapsible-content">
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <h4>O&M (Operations & Maintenance)</h4>
+                            <p>Unit funds, government purchase cards, budget questions</p>
+                            <div class="email">Kassandra.keitt@us.af.mil</div>
+                        </div>
+                        <div class="contact-card">
+                            <h4>Budget Officer</h4>
+                            <p>Budget planning, financial management, resource allocation</p>
+                            <div class="email">Sharon.ingram.2@us.af.mil</div>
+                        </div>
+                        <div class="contact-card">
+                            <h4>DECENT/AROWSR</h4>
+                            <p>Deployment entitlements, special pay issues</p>
+                            <div class="email">Victoria.rivera@us.af.mil</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Forms Section -->
+            <div class="section">
+                <h2>Common Forms & Documents</h2>
+                
+                <button type="button" class="collapsible">Common Forms</button>
+                <div class="collapsible-content">
+                    <div class="form-grid">
+                        <div class="form-card">
+                            <h4>W-2 Form 2025</h4>
+                            <p><b>Tax withholding information</b></p>
+                            <p><em>Note: Finance cannot advise on tax matters - contact DFAS</em></p>
+                            <a href="https://www.irs.gov/forms-pubs/about-form-w-2" target="_blank" class="btn">IRS W-2 Info</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>Direct Deposit Form</h4>
+                            <p><b>Bank account information for Mypay</b></p>
+                            <p><em>Must check both Travel and Net Pay</em></p>
+                            <a href="https://media.defense.gov/2019/May/17/2002133039/-1/-1/1/FMS%202231%20FAST%20START%20DIRECT%20DEPOSIT.PDF" target="_blank" class="btn">Fast Start Guide</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DD Form 2058</h4>
+                            <p><b>State of Legal Residence Certificate</b></p>
+                            <p><em>Update address with FSS first</em></p>
+                            <a href="https://www.esd.whs.mil/Directives/forms/dd2000_2499/DD2058/D" target="_blank" class="btn">Download Form</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DAF 594</h4>
+                            <p><b>Dependency and housing allowance form</b></p>
+                            <p><em>Requires supporting documents for dependents</em></p>
+                            <a href="https://www.e-publishing.af.mil/Product-Index/#/?view=form&orgID=10141&catID=8&low=500&high=599&modID=449&tabID=131" target="_blank" class="btn">Find Form</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>AF 1089A</h4>
+                            <p><b>Leave Settlement Option (Sell Leave)</b></p>
+                            <p><em>Use 2025 version only</em></p>
+                            <a href="https://www.e-publishing.af.mil/Product-Index/#/?view=form&orgID=10141&catID=8&low=1000&high=1099&modID=449&tabID=131" target="_blank" class="btn">Find Form</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DAF 1962</h4>
+                            <p><b>Military/VA Pay Election</b></p>
+                            <p><em>Note: Work with your VA-accredited representative to review your documents before submission. Their review helps confirm accuracy and ensures your claim is processed correctly.</em></p>
+                            <a href="https://www.e-publishing.af.mil/Product-Index/#/?view=form&orgID=10141&catID=8&low=1900&high=1999&modID=449&tabID=131" target="_blank" class="btn">Find Form</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="button" class="collapsible">Travel Forms</button>
+                <div class="collapsible-content">
+                    <div class="form-grid">
+                        <div class="form-card">
+                            <h4>DTS Reference Materials</h4>
+                            <p>Training guides, manuals, and reference documents</p>
+                            <a href="https://www.travel.dod.mil/Training/Reference-Materials/" target="_blank" class="btn">View All Materials</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DTS Authorization</h4>
+                            <p>Create travel authorization in DTS system</p>
+                            <a href="https://www.defensetravel.osd.mil/" target="_blank" class="btn">Access DTS</a>
+                            <a href="https://media.defense.gov/2021/Nov/08/2002889413/-1/-1/0/AUTHORIZATION_TRI-FOLD.PDF" target="_blank" class="btn">Quick Guide</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DTS Voucher</h4>
+                            <p>Submit travel expenses for reimbursement</p>
+                            <a href="https://www.defensetravel.osd.mil/" target="_blank" class="btn">Access DTS</a>
+                            <a href="https://media.defense.gov/2021/Nov/08/2002889408/-1/-1/0/VOUCHER_FROM_AUTHORIZATION.PDF" target="_blank" class="btn">Quick Guide</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DTS Local Voucher</h4>
+                            <p>For mileage claims (medical appointments, etc.)</p>
+                            <a href="https://www.defensetravel.osd.mil/" target="_blank" class="btn">Access DTS</a>
+                            <a href="https://media.defense.gov/2021/Nov/08/2002889399/-1/-1/0/LOCAL_VOUCHER_TRI-FOLD.PDF" target="_blank" class="btn">Quick Guide</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DD Form 1351-2</h4>
+                            <p>Travel Voucher (if not using DTS)</p>
+                            <a href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd1351-2.pdf" target="_blank" class="btn">Download Form</a>
+                        </div>
+                        <div class="form-card">
+                            <h4>DD Form 1610</h4>
+                            <p>Request and Authorization for TDY Travel</p>
+                            <a href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd1610.pdf" target="_blank" class="btn">Download Form</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resources -->
+            <div class="section">
+                <h2>Important Resources & Websites</h2>
+                
+                <button type="button" class="collapsible">Pay & Benefits</button>
+                <div class="collapsible-content">
+                    <ul class="resource-list">
+                        <li>
+                            <a href="https://mypay.dfas.mil/#/" target="_blank">MyPay (DFAS)</a>
+                            <br>View LES, update direct deposit, tax withholdings, TSP contributions
+                        </li>
+                        <li>
+                            <a href="https://milconnect.dmdc.osd.mil/milconnect/" target="_blank">milConnect</a>
+                            <br>Update SGLI, personal information, dependent information
+                        </li>
+                        <li>
+                            <a href="https://www.tsp.gov/" target="_blank">TSP (Thrift Savings Plan)</a>
+                            <br>Retirement savings account management
+                        </li>
+                        <li>
+                            <a href="https://www.va.gov/" target="_blank">VA Benefits</a>
+                            <br>Veterans Affairs benefits and services
+                        </li>
+                    </ul>
+                </div>
+                
+                <button type="button" class="collapsible">Travel Resources</button>
+                <div class="collapsible-content">
+                    <ul class="resource-list">
+                        <li>
+                            <a href="https://www.travel.dod.mil/" target="_blank">DoD Travel Portal</a>
+                            <br>Per diem rates, travel regulations, lodging information
+                        </li>
+                        <li>
+                            <a href="https://www.defensetravel.osd.mil/" target="_blank">DTS Production System</a>
+                            <br>Defense Travel System for authorizations and vouchers
+                        </li>
+                        <li>
+                            <a href="https://dtod.transport.mil/" target="_blank">Defense Table of Official Distance (DTOD)</a>
+                            <br>Official mileage calculator for travel reimbursements
+                        </li>
+                        <li>
+                            <a href="https://www.dfas.mil/MilitaryMembers/travelpay/forms/" target="_blank">DFAS Travel Forms</a>
+                            <br>Official travel forms and instructions
+                        </li>
+                        <li>
+                            <a href="https://www.travel.dod.mil/Training/Reference-Materials/" target="_blank">Travel Reference Materials</a>
+                            <br>Training guides, manuals, and reference documents
+                        </li>
+                    </ul>
+                </div>
+                
+                <button type="button" class="collapsible">Official References</button>
+                <div class="collapsible-content">
+                    <ul class="resource-list">
+                        <li>
+                            <a href="https://www.dfas.mil/" target="_blank">DFAS</a>
+                            <br>Defense Finance and Accounting Service - pay issues, debt management
+                        </li>
+                        <li>
+                            <a href="https://www.irs.gov/individuals/military" target="_blank">IRS Military</a>
+                            <br>Tax information for military members
+                        </li>
+                        <li>
+                            <a href="https://www.esd.whs.mil/Directives/forms/" target="_blank">DoD Forms</a>
+                            <br>Official DoD forms and directives
+                        </li>
+                        <li>
+                            <a href="https://www.e-publishing.af.mil/Product-Index/#/?view=org&orgID=10141&catID=8&isForm=null&modID=449&tabID=131" target="_blank">Air Force Forms (DAF)</a>
+                            <br>Official Air Force e-publishing forms lookup
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- FAQ Section with Collapsible Questions -->
+            <div class="section">
+                <h2>Frequently Asked Questions</h2>
+                
+                <!-- Military Pay FAQ -->
+                <button type="button" class="collapsible">Military Pay FAQ</button>
+                <div class="collapsible-content">
+                    
+                    <button type="button" class="faq-collapsible">How do I update my BAH (Basic Allowance for Housing)?</button>
+                    <div class="faq-content">
+                        <p>Submit DAF 594 form with supporting documentation (marriage certificate, birth certificates, divorce decree, etc.) to <strong>514amw.fmfp@us.af.mil</strong>. Update your address with FSS first.</p>
+                    </div>
+                    
+                    <button type="button" class="faq-collapsible">How do I change my SGLI (life insurance) coverage?</button>
+                    <div class="faq-content">
+                        <p>Log into milConnect at <a href="https://milconnect.dmdc.osd.mil/milconnect/" target="_blank">milconnect.dmdc.osd.mil</a>. Finance office does not process SGLI changes.</p>
+                    </div>
+                    
+                    <button type="button" class="faq-collapsible">How do I update my dependency status for BAH (marriage, new dependent, secondary dependent, or long tour orders)?</button>
+                    <div class="faq-content">
+                        <p>Finance does not automatically update your records when you make changes in DEERS (such as getting married). DEERS and Finance are separate systems. To update your dependency status for BAH, you must take the following steps:</p>
+                        <p><strong>Submit Required Forms</strong></p>
+                        <ul>
+                            <li><strong>AF Form 594</strong> (required for all dependency changes).</li>
+                            <li><strong>Long Tour Orders (over 30 days):</strong> AF Form 594 is also required to verify dependency and housing requirements. You must include a copy of your certified start orders, and the start date should account for travel days.</li>
+                            <li>If claiming a secondary dependent, also complete the appropriate <strong>DD Form 137</strong>. Forms and instructions are available on the DFAS Secondary Dependency page.</li>
+                        </ul>
+                        <p><strong>Provide Documentation</strong></p>
+                        <ul>
+                            <li>For <strong>marriage or primary dependent updates</strong>: submit original marriage documentation along with AF Form 594.</li>
+                            <li>For <strong>secondary dependents</strong>: provide proof of the dependent's income (e.g., pay stubs, Social Security statements, W-2s) and proof of your financial support if they do not live with you (e.g., canceled checks, money orders, receipts, or support allotment).</li>
+                        </ul>
+                        <p><strong>Reference Guides</strong></p>
+                        <ul>
+                            <li>If you're unsure what documents are needed or how to complete AF Form 594, refer to the BAH Recertification Guide for step-by-step instructions.</li>
+                        </ul>
+                        <p><strong>Note:</strong> Submitting paperwork for a secondary dependent does not increase your BAH rate if you already have a primary dependent, but it may affect eligibility for other entitlements (ID card, medical benefits, etc.).</p>
+                    </div>
+                    
+                    <button type="button" class="faq-collapsible">Who do I contact about tax issues or W-2 problems?</button>
+                    <div class="faq-content">
+                        <p>Finance cannot provide tax advice. For W-2 issues, contact DFAS directly. For general military pay questions, use <strong>514amw.fmfp@us.af.mil</strong>.</p>
+                    </div>
+                    
+                    <button type="button" class="faq-collapsible">Why are my garnishment(s) (e.g. child support) not reflecting on myPay?</button>
+                    <div class="faq-content">
+                        <p>Garnishments are court-ordered deductions. Finance cannot start, change, or stop these. For questions or changes, contact your <strong>state agency</strong> (payment) <a href="https://acf.gov/css" target="_blank">acf.gov/css</a> or <strong>DFAS</strong> (child support/alimony not showing on pay) <a href="https://www.dfas.mil/Garnishment/childsupportalimony/" target="_blank">dfas.mil/Garnishment/childsupportalimony</a></p>
+                    </div>
+                    
+                    <button type="button" class="faq-collapsible">Why do I have a debt on myPay?</button>
+                    <div class="faq-content">
+                        <p>Debts usually show in the <em>remarks</em> section of the LES where the debt is posted. If you don't see a reason, please submit a query through myPay.</p>
+                        <p><strong>Common causes of debts and how to avoid them:</strong></p>
+                        <ul>
+                            <li><strong>Order changes</strong> – Turn in order modifications (especially if they shorten your tour) as soon as you receive them.</li>
+                            <li><strong>Leave</strong> – Don't take leave if you don't have enough balance to cover it.</li>
+                            <li><strong>UTAs</strong> – If you don't perform UTAs consecutively, SGLI premiums can build up as debts on your next LES.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Travel Pay FAQ -->
+                <button type="button" class="collapsible">Travel Pay FAQ</button>
+                <div class="collapsible-content">
+                    
+                    <button type="button" class="faq-collapsible">How do I claim mileage for medical appointments?</button>
+                    <div class="faq-content">
+                        <p>Members can use the Local Voucher in DTS to claim mileage for medical appointments. When doing so, they must use the official Defense Table of Official Distance (DTOD) for the mileage claimed.</p>
+                    </div>
+                    
+                    <button type="button" class="faq-collapsible">Where can I find the IDT Travel Reimbursement Guide?</button>
+                    <div class="faq-content">
+                        <p>The AFR FY25 IDT Travel Reimbursement Guide is available at: <a href="https://www.hqrio.afrc.af.mil/Portals/149/Documents/AFR%20FY25%20IDT%20Travel%20Reimbursement%20Guide_V5_FINAL_21%20Jul%2025.pdf?ver=3u4oFb_dJO6dKUns-ma8RA%3D%3D" target="_blank">AFR FY25 IDT Travel Reimbursement Guide</a></p>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="background: #e8f4fd; padding: 20px; border-radius: 8px; text-align: center; margin-top: 40px;">
+                <h3 style="color: #1e3c72; margin-bottom: 15px;">Still Need Help?</h3>
+                <p>If you can't find what you need above, send an email to the appropriate org box with:</p>
+                <ul style="text-align: left; max-width: 400px; margin: 15px auto;">
+                    <li>Your full name and last 4 of SSN</li>
+                    <li>Detailed description of your issue</li>
+                    <li>Any relevant documents or screenshots</li>
+                    <li>Your preferred contact method</li>
+                </ul>
+                <p><strong>We'll get back to you within 1-2 business days!</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simplified and more reliable collapsible functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCollapsibles();
+        });
+
+        function initializeCollapsibles() {
+            // Handle main collapsibles
+            const mainCollapsibles = document.querySelectorAll('.collapsible');
+            mainCollapsibles.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    
+                    if (this.classList.contains('active')) {
+                        content.classList.add('active');
+                        // Calculate the actual content height
+                        const scrollHeight = content.scrollHeight;
+                        const maxHeight = Math.min(scrollHeight, window.innerHeight * 0.7);
+                        content.style.maxHeight = maxHeight + 'px';
+                    } else {
+                        content.classList.remove('active');
+                        content.style.maxHeight = '0px';
+                    }
+                    
+                    // Update parent container heights after a brief delay
+                    setTimeout(() => updateParentContainers(content), 50);
+                });
+            });
+
+            // Handle FAQ collapsibles
+            const faqCollapsibles = document.querySelectorAll('.faq-collapsible');
+            faqCollapsibles.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    const content = this.nextElementSibling;
+                    
+                    if (this.classList.contains('active')) {
+                        content.classList.add('active');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                    } else {
+                        content.classList.remove('active');
+                        content.style.maxHeight = '0px';
+                    }
+                    
+                    // Update parent container heights after a brief delay
+                    setTimeout(() => updateParentContainers(content), 50);
+                });
+            });
+        }
+
+        // Simplified function to update parent container heights
+        function updateParentContainers(element) {
+            let parent = element.parentElement;
+            
+            while (parent && parent !== document.body) {
+                if (parent.classList.contains('collapsible-content') && parent.classList.contains('active')) {
+                    // Recalculate parent height to accommodate new content
+                    const newHeight = Math.min(parent.scrollHeight, window.innerHeight * 0.7);
+                    parent.style.maxHeight = newHeight + 'px';
+                }
+                parent = parent.parentElement;
+            }
+        }
+
+        // Handle window resize to adjust heights
+        window.addEventListener('resize', function() {
+            const activeContents = document.querySelectorAll('.collapsible-content.active');
+            activeContents.forEach(content => {
+                const maxHeight = Math.min(content.scrollHeight, window.innerHeight * 0.7);
+                content.style.maxHeight = maxHeight + 'px';
+            });
+        });
+    </script>
+</body>
+</html>
