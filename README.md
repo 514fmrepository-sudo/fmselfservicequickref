@@ -8,13 +8,7 @@ Purpose
 
 This self-service portal provides 514th Air Mobility Wing members with immediate access to:
 
-Contact information for finance-related issues
-
-Common forms and documents
-
-Important resources and websites
-
-Frequently asked questions
+Contact information for finance-related issues/Common forms and documents/Important resources and websites/Frequently asked questions
 
 Features
 
