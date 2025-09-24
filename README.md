@@ -1,12 +1,12 @@
 # fmselfservicequickref
 quick reference for fm door 
-514th AMW Finance Office - Self-Service Portal
+514th AMW Finance Office - Finance Resource Guide
 
-A quick reference guide for military members when finance office staff are unavailable.
+It's like having a knowledgable finance person available whenever to point the member in the right direction.
 
 Purpose
 
-This self-service portal provides 514th Air Mobility Wing members with immediate access to:
+This finance quick reference guide provides 514th Air Mobility Wing members with immediate access to:
 
 Contact information for finance-related issues/Common forms and documents/Important resources and websites/Frequently asked questions
 
