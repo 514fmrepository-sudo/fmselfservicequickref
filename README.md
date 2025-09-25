@@ -1,14 +1,10 @@
-# fmselfservicequickref
-quick reference for fm door 
-514th AMW Finance Office - Finance Resource Guide
-
-It's like having a knowledgable finance person available whenever to point the member in the right direction.
+514AMW/FM qkref
+<br><img width="502" height="669" alt="image" src="https://github.com/user-attachments/assets/69a026f3-58c5-407d-8f16-08a49f448cb5" />
+<br>It's like having a knowledgable finance person available whenever to point you in the right direction.
 
 Purpose
-
-This finance quick reference guide provides 514th Air Mobility Wing members with immediate access to:
-
-Contact information for finance-related issues/Common forms and documents/Important resources and websites/Frequently asked questions
+<br>This finance quick reference guide provides 514th Air Mobility Wing members with immediate access to:
+<br>Contact information for finance-related issues/Common forms and documents/Important resources and websites/Frequently asked questions
 
 Features
 
